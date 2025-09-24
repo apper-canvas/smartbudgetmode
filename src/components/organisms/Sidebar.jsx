@@ -5,6 +5,7 @@ import { cn } from "@/utils/cn";
 import { AuthContext } from "@/contexts/AuthContext";
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const { logout } = React.useContext(AuthContext);
   const navigationItems = [
     { to: "/", icon: "LayoutDashboard", label: "Dashboard" },
     { to: "/transactions", icon: "Receipt", label: "Transactions" },
@@ -55,8 +56,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   <p className="text-xs text-slate-500">Premium User</p>
                 </div>
                 <button
-                  onClick={() => {
-                    const { logout } = React.useContext(AuthContext);
+onClick={() => {
                     logout();
                   }}
                   className="p-1.5 text-slate-400 hover:text-slate-600 rounded-md hover:bg-slate-200 transition-colors"
@@ -125,8 +125,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     <p className="text-xs text-slate-500">Premium User</p>
                   </div>
                   <button
-                    onClick={() => {
-                      const { logout } = React.useContext(AuthContext);
+onClick={() => {
                       logout();
                     }}
                     className="p-1 text-slate-400 hover:text-slate-600 rounded-md hover:bg-slate-200 transition-colors"
