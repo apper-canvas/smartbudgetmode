@@ -12,11 +12,11 @@ const TransactionForm = ({ onSubmit, onCancel, initialData = null, isEditing = f
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    amount: "",
-    category: "",
-    type: "expense",
-    description: "",
-    date: formatDateInput(new Date())
+amount_c: "",
+    category_c: "",
+    type_c: "expense",
+    description_c: "",
+    date_c: formatDateInput(new Date())
   });
 
   useEffect(() => {
@@ -25,19 +25,19 @@ const TransactionForm = ({ onSubmit, onCancel, initialData = null, isEditing = f
 
   useEffect(() => {
     if (initialData) {
-      setFormData({
-        amount: Math.abs(initialData.amount).toString(),
-        category: initialData.category,
-        type: initialData.type,
-        description: initialData.description,
-        date: formatDateInput(initialData.date)
+setFormData({
+        amount_c: Math.abs(initialData.amount_c || initialData.amount).toString(),
+        category_c: initialData.category_c || initialData.category,
+        type_c: initialData.type_c || initialData.type,
+        description_c: initialData.description_c || initialData.description,
+        date_c: formatDateInput(initialData.date_c || initialData.date)
       });
     }
   }, [initialData]);
 
   const loadCategories = async () => {
     try {
-      const data = await categoryService.getAll();
+const data = await categoryService.getAll();
       setCategories(data);
     } catch (error) {
       toast.error("Failed to load categories");
@@ -61,20 +61,20 @@ const TransactionForm = ({ onSubmit, onCancel, initialData = null, isEditing = f
     setLoading(true);
     try {
       const transactionData = {
-        ...formData,
-        amount: formData.type === "expense" ? -Math.abs(amount) : Math.abs(amount),
-        date: new Date(formData.date).toISOString()
+...formData,
+        amount_c: formData.type_c === "expense" ? -Math.abs(amount) : Math.abs(amount),
+        date_c: new Date(formData.date_c).toISOString()
       };
 
       await onSubmit(transactionData);
       
       if (!isEditing) {
         setFormData({
-          amount: "",
-          category: "",
-          type: "expense",
-          description: "",
-          date: formatDateInput(new Date())
+amount_c: "",
+          category_c: "",
+          type_c: "expense",
+          description_c: "",
+          date_c: formatDateInput(new Date())
         });
       }
     } catch (error) {
@@ -128,15 +128,15 @@ const TransactionForm = ({ onSubmit, onCancel, initialData = null, isEditing = f
               <option value="">Select category...</option>
               {formData.type === "expense" && 
                 expenseCategories.map(category => (
-                  <option key={category.Id} value={category.name}>
-                    {category.name}
+<option key={category.Id} value={category.name_c || category.name}>
+                    {category.name_c || category.name}
                   </option>
                 ))
               }
-              {formData.type === "income" && 
+              {formData.type_c === "income" && 
                 incomeCategories.map(category => (
-                  <option key={category.Id} value={category.name}>
-                    {category.name}
+                  <option key={category.Id} value={category.name_c || category.name}>
+                    {category.name_c || category.name}
                   </option>
                 ))
               }

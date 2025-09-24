@@ -1,7 +1,8 @@
 import React from "react";
-import NavigationItem from "@/components/molecules/NavigationItem";
 import ApperIcon from "@/components/ApperIcon";
+import NavigationItem from "@/components/molecules/NavigationItem";
 import { cn } from "@/utils/cn";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigationItems = [
@@ -43,16 +44,26 @@ const Sidebar = ({ isOpen, onClose }) => {
             ))}
           </nav>
 
-          <div className="p-4 border-t border-slate-200">
+<div className="p-4 border-t border-slate-200">
             <div className="p-4 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg border border-slate-200">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
                   <ApperIcon name="User" className="w-4 h-4 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-900 truncate">John Doe</p>
+                  <p className="text-sm font-medium text-slate-900 truncate">User</p>
                   <p className="text-xs text-slate-500">Premium User</p>
                 </div>
+                <button
+                  onClick={() => {
+                    const { logout } = React.useContext(AuthContext);
+                    logout();
+                  }}
+                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-md hover:bg-slate-200 transition-colors"
+                  title="Logout"
+                >
+                  <ApperIcon name="LogOut" className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
@@ -103,16 +114,26 @@ const Sidebar = ({ isOpen, onClose }) => {
               ))}
             </nav>
 
-            <div className="p-4 border-t border-slate-200">
+<div className="p-4 border-t border-slate-200">
               <div className="p-3 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg">
                 <div className="flex items-center space-x-2">
                   <div className="w-6 h-6 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
                     <ApperIcon name="User" className="w-3 h-3 text-white" />
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">John Doe</p>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-slate-900">User</p>
                     <p className="text-xs text-slate-500">Premium User</p>
                   </div>
+                  <button
+                    onClick={() => {
+                      const { logout } = React.useContext(AuthContext);
+                      logout();
+                    }}
+                    className="p-1 text-slate-400 hover:text-slate-600 rounded-md hover:bg-slate-200 transition-colors"
+                    title="Logout"
+                  >
+                    <ApperIcon name="LogOut" className="w-3 h-3" />
+                  </button>
                 </div>
               </div>
             </div>

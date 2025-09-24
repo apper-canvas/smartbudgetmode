@@ -21,9 +21,9 @@ const SavingsGoalManager = () => {
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [contributeAmount, setContributeAmount] = useState("");
   const [formData, setFormData] = useState({
-    title: "",
-    targetAmount: "",
-    deadline: formatDateInput(new Date(Date.now() + 365 * 24 * 60 * 60 * 1000))
+title_c: "",
+    target_amount_c: "",
+    deadline_c: formatDateInput(new Date(Date.now() + 365 * 24 * 60 * 60 * 1000))
   });
 
   useEffect(() => {
@@ -60,18 +60,18 @@ const SavingsGoalManager = () => {
 
     try {
       const goalData = {
-        ...formData,
-        targetAmount: amount,
-        currentAmount: 0,
-        deadline: new Date(formData.deadline).toISOString()
+...formData,
+        target_amount_c: amount,
+        current_amount_c: 0,
+        deadline_c: new Date(formData.deadline_c).toISOString()
       };
 
       await savingsGoalService.create(goalData);
       toast.success("Savings goal created successfully");
       setFormData({
-        title: "",
-        targetAmount: "",
-        deadline: formatDateInput(new Date(Date.now() + 365 * 24 * 60 * 60 * 1000))
+title_c: "",
+        target_amount_c: "",
+        deadline_c: formatDateInput(new Date(Date.now() + 365 * 24 * 60 * 60 * 1000))
       });
       setShowForm(false);
       await loadGoals();
@@ -204,9 +204,14 @@ const SavingsGoalManager = () => {
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {goals.map((goal) => {
-            const percentage = getProgressPercentage(goal.currentAmount, goal.targetAmount);
-            const daysRemaining = getDaysRemaining(goal.deadline);
+{goals.map((goal) => {
+            const currentAmount = goal.current_amount_c || goal.currentAmount || 0;
+            const targetAmount = goal.target_amount_c || goal.targetAmount || 0;
+            const deadline = goal.deadline_c || goal.deadline;
+            const title = goal.title_c || goal.title;
+            
+            const percentage = getProgressPercentage(currentAmount, targetAmount);
+            const daysRemaining = getDaysRemaining(deadline);
             const isOverdue = daysRemaining < 0;
 
             return (
@@ -214,12 +219,12 @@ const SavingsGoalManager = () => {
                 <div className="space-y-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-slate-900 mb-1">{goal.title}</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 mb-1">{title}</h3>
                       <p className="text-sm text-slate-600">
-                        {formatCurrency(goal.currentAmount)} of {formatCurrency(goal.targetAmount)}
+                        {formatCurrency(currentAmount)} of {formatCurrency(targetAmount)}
                       </p>
                       <p className="text-xs text-slate-500 mt-1">
-                        Target: {formatDate(goal.deadline)}
+                        Target: {formatDate(deadline)}
                         {isOverdue ? (
                           <span className="text-error-600 font-medium ml-1">(Overdue)</span>
                         ) : daysRemaining <= 30 ? (
@@ -256,7 +261,7 @@ const SavingsGoalManager = () => {
                         {percentage.toFixed(0)}% Complete
                       </span>
                       <span className="text-sm text-slate-600">
-                        {formatCurrency(goal.targetAmount - goal.currentAmount)} to go
+                        {formatCurrency(targetAmount - currentAmount)} to go
                       </span>
                     </div>
                     <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
@@ -307,9 +312,9 @@ const SavingsGoalManager = () => {
             
             <form onSubmit={handleContribute} className="space-y-4">
               <div>
-                <p className="text-sm text-slate-600 mb-2">Contributing to: <strong>{selectedGoal.title}</strong></p>
+<p className="text-sm text-slate-600 mb-2">Contributing to: <strong>{selectedGoal.title_c || selectedGoal.title}</strong></p>
                 <p className="text-sm text-slate-500">
-                  Current: {formatCurrency(selectedGoal.currentAmount)} / {formatCurrency(selectedGoal.targetAmount)}
+                  Current: {formatCurrency(selectedGoal.current_amount_c || selectedGoal.currentAmount)} / {formatCurrency(selectedGoal.target_amount_c || selectedGoal.targetAmount)}
                 </p>
               </div>
               
