@@ -11,9 +11,9 @@ const TransactionList = ({ transactions, onEdit, onDelete, loading }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
 
-  const filteredTransactions = transactions.filter(transaction => {
-    const matchesSearch = transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         transaction.category.toLowerCase().includes(searchTerm.toLowerCase());
+const filteredTransactions = transactions.filter(transaction => {
+    const matchesSearch = (transaction.description?.toLowerCase() ?? '').includes(searchTerm.toLowerCase()) ||
+                         (transaction.category?.toLowerCase() ?? '').includes(searchTerm.toLowerCase());
     const matchesType = selectedType === "all" || transaction.type === selectedType;
     return matchesSearch && matchesType;
   });
