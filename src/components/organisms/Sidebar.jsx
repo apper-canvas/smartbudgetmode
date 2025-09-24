@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import ApperIcon from "@/components/ApperIcon";
 import NavigationItem from "@/components/molecules/NavigationItem";
 import { cn } from "@/utils/cn";
 import { AuthContext } from "@/contexts/AuthContext";
 
 const Sidebar = ({ isOpen, onClose }) => {
-  const { logout } = React.useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const navigationItems = [
     { to: "/", icon: "LayoutDashboard", label: "Dashboard" },
     { to: "/transactions", icon: "Receipt", label: "Transactions" },
